@@ -28,21 +28,39 @@ const lightbox = event => {
     );
 };
 
-const getRequest = async () => {
-    await axios.get('https://pixabay.com/api', {
-        params: {
-            key: API_KEY,
-            q: searchInput.value,
-            image_type: 'photo',
-            orientation: 'horizontal',
-            safesearch: true,
-            page: page,
-            per_page: PER_PAGE,
-        }
-    })
+const getRequest = () => {
+    // await axios.get('https://pixabay.com/api', {
+    //     params: {
+    //         key: API_KEY,
+    //         q: searchInput.value,
+    //         image_type: 'photo',
+    //         orientation: 'horizontal',
+    //         safesearch: true,
+    //         page: page,
+    //         per_page: PER_PAGE,
+    //     }
+
+    // const searchParams = new URLSearchParams({
+    //         key: API_KEY,
+    //         q: searchInput.value,
+    //         image_type: 'photo',
+    //         orientation: 'horizontal',
+    //         safesearch: true,
+    //         page: page,
+    //         per_page: PER_PAGE,
+    // });
+
+    // const url = `https://pixabay.com/api?${searchParams}`;
+    // console.log(url);
+    fetch('https://pixabay.com/api?key=24701819-0d7586ce1f39ad56fcdaf1d5e&q=&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=40')
         .then(response => {
-            const totalHits = response.data.totalHits;
-            const arrayImg = response.data.hits;
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            const totalHits = data.totalHits;
+            console.log(totalHits);
+            const arrayImg = data.hits;
             pageAmount = Math.ceil(totalHits / PER_PAGE);
     
             if (arrayImg.length === 0) {
