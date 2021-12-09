@@ -10,4 +10,60 @@ body {
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
+  margin: 0;
+}
+
+.search-form {
+  padding: 20px;
+  text-align: center;
+  background-color: rgb(48, 48, 173);
+}
+
+.search-form input {
+  height: 30px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.search-form button {
+  border-radius: 5px;
+  height: 30px;
+}
+
+.gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.photo-card {
+  position: relative;
+  margin: 10px;
+  width: 320px;
+  height: 240px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-item {
+  text-align: center;
+}
+
+.load-more {
+  display: none;
 }
