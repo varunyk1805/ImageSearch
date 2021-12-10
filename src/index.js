@@ -15,8 +15,10 @@ let pageAmount;
 const searchBtn = document.querySelector('button[type=submit]');
 const searchInput = document.querySelector('input[name=searchQuery]');
 const gallery = document.querySelector('.gallery');
+// ---------------------------------------
 // Доступ до кнопки "Load more"
 // const loadMoreBtn = document.querySelector('.load-more');
+// ----------------------------------------
 
 const lightbox = event => {
     event.preventDefault();
@@ -28,39 +30,21 @@ const lightbox = event => {
     );
 };
 
-const getRequest = () => {
-    // await axios.get('https://pixabay.com/api', {
-    //     params: {
-    //         key: API_KEY,
-    //         q: searchInput.value,
-    //         image_type: 'photo',
-    //         orientation: 'horizontal',
-    //         safesearch: true,
-    //         page: page,
-    //         per_page: PER_PAGE,
-    //     }
-
-    // const searchParams = new URLSearchParams({
-    //         key: API_KEY,
-    //         q: searchInput.value,
-    //         image_type: 'photo',
-    //         orientation: 'horizontal',
-    //         safesearch: true,
-    //         page: page,
-    //         per_page: PER_PAGE,
-    // });
-
-    // const url = `https://pixabay.com/api?${searchParams}`;
-    // console.log(url);
-    fetch('https://pixabay.com/api?key=24701819-0d7586ce1f39ad56fcdaf1d5e&q=&image_type=photo&orientation=horizontal&safesearch=true&page=1&per_page=40')
+const getRequest = async () => {
+    await axios.get('https://pixabay.com/api/', {
+        params: {
+            key: API_KEY,
+            q: searchInput.value,
+            image_type: 'photo',
+            orientation: 'horizontal',
+            safesearch: true,
+            page: page,
+            per_page: PER_PAGE,
+        }
+    })
         .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            const totalHits = data.totalHits;
-            console.log(totalHits);
-            const arrayImg = data.hits;
+            const totalHits = response.data.totalHits;
+            const arrayImg = response.data.hits;
             pageAmount = Math.ceil(totalHits / PER_PAGE);
     
             if (arrayImg.length === 0) {
@@ -102,11 +86,14 @@ const getRequest = () => {
             gallery.insertAdjacentHTML('beforeend', galleryItems);
 
             if (page === Math.ceil(totalHits / PER_PAGE)) {
+                // ------------------------------------
                 // Приховує кнопку "Load more", якщо відображені усі зображення за запитом
                 // loadMoreBtn.style.display = 'none';
+                // -----------------------------------------
                 return Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             };
     
+            // -------------------------------------------------------------
             // Плавний скроллінг сторінки вверх при натисканні кнопки "Load more"
             // if (page > 1) {
             //     const { height: cardHeight } = gallery
@@ -117,9 +104,12 @@ const getRequest = () => {
             //         behavior: "smooth",
             //     });
             // };
+            // --------------------------------------------------
         
+            // -----------------------------------------------
             // Поява кнопки "Load more"
             // loadMoreBtn.style.display = 'inline-block';
+            // ---------------------------------------------------
     
         })
         .catch(function (error) {
@@ -137,8 +127,11 @@ searchBtn.addEventListener('click', event => {
         searchKey = searchInput.value;
     };
 
+    // --------------------------------------------------
     // Приховує кнопку "Load more" при новому пошуковому запиті
     // loadMoreBtn.style.display = 'none';
+    // ------------------------------------------------------
+
     gallery.innerHTML = '';
     getRequest();
 });
@@ -161,8 +154,10 @@ window.addEventListener('scroll',
 
 gallery.addEventListener('click', lightbox);
 
+// ------------------------------------------------------
 // Запит на нову групу зображень при натисканні кнопки "Load more"
 // loadMoreBtn.addEventListener('click', () => {
 //     page += 1;
 //     getRequest();
 // });
+// ----------------------------------------------
